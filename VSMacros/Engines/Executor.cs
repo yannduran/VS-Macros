@@ -24,7 +24,7 @@ namespace VSMacros.Engines
 {
     /// <summary>
     /// Implements the execution engine.
-    /// </summary>   
+    /// </summary>
     internal sealed class Executor : IExecutor
     {
         /// <summary>
@@ -136,7 +136,7 @@ namespace VSMacros.Engines
         /// <summary>
         /// Initializes the engine.
         /// </summary>
-        /// 
+        ///
         public void InitializeEngine()
         {
             this.RegisterCmdNameMappinginROT();
@@ -148,9 +148,8 @@ namespace VSMacros.Engines
 
             EnvDTE.DTE dte = ((IServiceProvider)VSMacrosPackage.Current).GetService(typeof(SDTE)) as EnvDTE.DTE;
             string version = dte.Version;
-
             Executor.executionEngine = new Process();
-            string exeFileName = version.StartsWith("14.") ? "VS2015\\VisualStudio2015.Macros.ExecutionEngine.exe" : "VisualStudio.Macros.ExecutionEngine.exe";
+            string exeFileName = version.StartsWith("14.") || version.StartsWith("15.") ? "VS2015\\VisualStudio2015.Macros.ExecutionEngine.exe" : "VisualStudio.Macros.ExecutionEngine.exe";
             string processName = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), exeFileName);
             Executor.executionEngine.StartInfo.FileName = processName;
             Executor.executionEngine.StartInfo.UseShellExecute = false;
@@ -174,7 +173,7 @@ namespace VSMacros.Engines
         /// <summary>
         /// If engine is initialized, runs the engine.  Otherwise, initializes and runs the engine.
         /// </summary>
-        /// 
+        ///
         public void RunEngine(int iterations, string path)
         {
             if (IsServerReady() && IsExecutorReady())
@@ -203,7 +202,7 @@ namespace VSMacros.Engines
 
         public void StopEngine()
         {
-            Executor.Job.Close();   
+            Executor.Job.Close();
             this.IsEngineRunning = false;
         }
     }
